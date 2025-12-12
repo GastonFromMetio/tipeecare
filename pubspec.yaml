@@ -1,0 +1,25 @@
+name: prescription_normalizer
+description: Simple app de normalisation de texte médical dicté.
+publish_to: "none"
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dart_phonetics: ^1.0.1
+  path_provider: ^2.1.5
+  record: ^6.1.2
+  whisper_flutter_new: ^1.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/models/
+    - assets/models/whisper-small-medical-q5_1.bin
