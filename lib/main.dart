@@ -201,7 +201,7 @@ class _PrescriptionHomePageState extends State<PrescriptionHomePage> {
     if (!_isPipelineReady) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Moteur de prescription (offline)'),
+          title: const Text('Moteur de prescription'),
         ),
         body: Center(
           child: Column(
@@ -249,7 +249,7 @@ class _PrescriptionHomePageState extends State<PrescriptionHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Moteur de prescription (offline)'),
+        title: const Text('Moteur de prescription'),
       ),
       body: SafeArea(
         child: Column(
@@ -440,6 +440,30 @@ class _PrescriptionHomePageState extends State<PrescriptionHomePage> {
                                 const SizedBox(height: 4),
                                 Text(
                                   'Genre: ${_patientProfile!.gender ?? '-'}',
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Adresse: ${_patientProfile!.address ?? '-'}',
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Ville: ${_patientProfile!.city ?? '-'}',
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Email: ${_patientProfile!.email ?? '-'}',
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Téléphone: ${_patientProfile!.phone ?? '-'}',
                                   style:
                                       Theme.of(context).textTheme.bodyMedium,
                                 ),
