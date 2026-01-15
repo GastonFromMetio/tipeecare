@@ -53,7 +53,7 @@ class WhisperFlutterNewTranscriber implements SpeechTranscriber {
     const modelFilename = 'whisper-small-medical-q5_1.bin';
     final modelPath = '$modelDir/$modelFilename';
     final modelFile = File(modelPath);
-    final minValidSizeBytes = 1024 * 1024; // protect against HTML/error downloads
+    const minValidSizeBytes = 1024 * 1024; // protect against HTML/error downloads
     final assetCandidates = <String>{
       if (assetModelPath != null) assetModelPath,
       'assets/models/$modelFilename',

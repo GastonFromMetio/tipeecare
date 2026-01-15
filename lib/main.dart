@@ -304,7 +304,7 @@ class _PrescriptionHomePageState extends State<PrescriptionHomePage> {
                       ),
                       const SizedBox(height: 8),
                       DropdownButtonFormField<_WhisperModelOption>(
-                        value: _whisperModels.firstWhere(
+                        initialValue: _whisperModels.firstWhere(
                           (option) =>
                               option.model == _selectedModel &&
                               option.downloadHost == _selectedHost &&
