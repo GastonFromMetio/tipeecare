@@ -898,10 +898,12 @@ RouteMatch? findRoute(String segment) {
   final candidates = <RouteMatch>[];
 
   void addIfFound(String pattern, String voie, String dispositif) {
-    final idx = segment.indexOf(pattern);
-    if (idx != -1) {
-      candidates.add(RouteMatch(voie: voie, dispositif: dispositif, start: idx));
-    }
+    final match =
+        RegExp('\\b${RegExp.escape(pattern)}\\b').firstMatch(segment);
+    if (match == null) return;
+    candidates.add(
+      RouteMatch(voie: voie, dispositif: dispositif, start: match.start),
+    );
   }
 
   addIfFound('vvp', 'Intraveineuse (périphérique)', 'VVP');
@@ -917,6 +919,22 @@ RouteMatch? findRoute(String segment) {
   if (candidates.isEmpty) return null;
   candidates.sort((a, b) => a.start.compareTo(b.start));
   return candidates.first;
+}
+
+int? _firstDrugAliasIndex(String segment, {int? afterIndex}) {
+  final lowerSegment = segment.toLowerCase();
+  int? bestIndex;
+  for (final drug in drugLexicon) {
+    for (final alias in drug.aliases) {
+      final idx = lowerSegment.indexOf(alias.toLowerCase());
+      if (idx == -1) continue;
+      if (afterIndex != null && idx < afterIndex) continue;
+      if (bestIndex == null || idx < bestIndex) {
+        bestIndex = idx;
+      }
+    }
+  }
+  return bestIndex;
 }
 
 /// Duration extraction: "pendant 7 jours" or "pour 7 jours" -> "7j"
@@ -1319,10 +1337,14 @@ class RuleBasedExtractor {
     // Route / device
     final routeMatch = findRoute(working);
 
-    // Posology: text between dose and route (or to end)
+    // Posology: text between dose and next known marker (route or drug name).
     String? posologie;
     if (doseEndIndex != null) {
-      final end = routeMatch?.start ?? working.length;
+      final routeEnd = routeMatch?.start ?? working.length;
+      final drugAliasIdx = _firstDrugAliasIndex(working, afterIndex: doseEndIndex);
+      final end = drugAliasIdx != null && drugAliasIdx < routeEnd
+          ? drugAliasIdx
+          : routeEnd;
       if (end > doseEndIndex) {
         posologie = working.substring(doseEndIndex, end).trim();
       }
